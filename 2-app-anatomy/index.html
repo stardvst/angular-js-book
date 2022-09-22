@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body ng-controller="TextController">
+  <p>{{someText.message}}</p>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.32/angular.min.js"></script>
+  <script>
+    const myAppModule = angular.module('myApp', []);
+    myAppModule.controller('TextController', function TextController($scope) {
+      const someText = {};
+      someText.message = 'Starting Angular 1.x journey!';
+      $scope.someText = someText;
+    });
+  </script>
+</body>
+
+</html>
