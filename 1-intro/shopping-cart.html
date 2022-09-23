@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="shoppingCart">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your shopping cart</title>
+</head>
+
+<body ng-controller="CartController">
+  <h1>Your Order</h1>
+  <div ng-repeat="item in items">
+    <span>{{item.title}}</span>
+    <span>{{item.price | currency}}</span>
+    <span>{{item.price * item.quantity | currency}}</span>
+    <button ng-click="remove($index)">Remove</button>
+    <input ng-model="item.quantity">
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    const myAppModule = angular.module('shoppingCart', []);
+    myAppModule.controller('CartController', function CartController($scope) {
+      $scope.items = [
+        { title: 'Paint pots', quantity: 8, price: 3.95 },
+        { title: 'Polka dots', quantity: 17, price: 12.95 },
+        { title: 'Pebbles', quantity: 5, price: 6.95 },
+      ];
+
+      $scope.remove = function(index) {
+        $scope.items.splice(index, 1);
+      }
+    });
+  </script>
+</body>
+
+</html>
