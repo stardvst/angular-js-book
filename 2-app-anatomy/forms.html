@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="formApp">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start-App</title>
+</head>
+
+<body>
+  <form ng-submit="requestFunding()" ng-controller="StartupController">
+    Starting: <input ng-change="computeNeeded()" ng-model="funding.startingEstimate">
+    <p>Recommendation: {{funding.needed}}</p>
+    <button>Fund my startup</button>
+    <button type="button" ng-click="reset()">Reset</button>
+  </form>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    const myAppModule = angular.module('formApp', []);
+    myAppModule.controller('StartupController', function StartupController($scope) {
+      $scope.reset = function() {
+        $scope.funding = { startingEstimate: 0, needed: 0 };
+      };
+
+      $scope.reset();
+
+      $scope.computeNeeded = function() {
+        $scope.funding.needed = $scope.funding.startingEstimate * 10;
+      };
+
+      $scope.requestFunding = function() {
+        window.alert("Sorry, please get more customers first.");
+      };
+
+      $scope.$watch("funding.startingEstimate", $scope.computeNeeded);
+    });
+  </script>
+</body>
+
+</html>
