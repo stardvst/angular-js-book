@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="listApp">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hide and Show</title>
+
+  <style>
+    .menu-disabled-true {
+      color: grey;
+    }
+
+    .error {
+      background-color: red;
+    }
+
+    .warning {
+      background-color: orange;
+    }
+
+    .selected {
+      background-color: lightgreen;
+    }
+
+  </style>
+</head>
+
+<body>
+  <ul ng-controller="MenuController">
+    <li class="menu-disabled-{{isDisabled}}" ng-click="stun()">Hello</li>
+    <li>World</li>
+    <li>!</li>
+  </ul>
+
+  <div ng-controller="HeaderController">
+    <div ng-class="{error: isError, warning: isWarning}">{{messageText}}</div>
+    <button ng-click="showError()">Simulate Error</button>
+    <button ng-click="showWarning()">Simulate Warning</button>
+  </div>
+
+  <div ng-controller="TableController">
+    <table>
+      <tr ng-repeat="restaurant in directory" ng-click="selectRestaurant($index)"
+        ng-class="{selected: $index == selectedRow}">
+        <td>{{restaurant.name}}</td>
+        <td>{{restaurant.cuisine}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    const myAppModule = angular.module('listApp', []);
+    myAppModule.controller('MenuController', function MenuController($scope) {
+      $scope.isDisabled = false;
+
+      $scope.stun = function() {
+        $scope.isDisabled = true;
+      }
+    });
+
+    myAppModule.controller('HeaderController', function HeaderController($scope) {
+      $scope.isError = false;
+      $scope.isWarning = false;
+
+      $scope.showError = function() {
+        $scope.messageText = 'This is an error';
+        $scope.isError = true;
+        $scope.isWarning = false;
+      }
+
+      $scope.showWarning = function() {
+        $scope.messageText = 'This is a warning';
+        $scope.isError = false;
+        $scope.isWarning = true;
+      }
+    });
+
+    myAppModule.controller('TableController', function TableController($scope) {
+      $scope.directory = [
+        { name: 'The Handsome Heifer', cuisine: 'BBQ' },
+        { name: 'Green Green\'s Greens', cuisine: 'Salads' },
+        { name: 'House of Fine Fish', cuisine: 'Seafood' },
+      ];
+
+      $scope.selectRestaurant = function(row) {
+        $scope.selectedRow = row;
+      }
+    });
+  </script>
+</body>
+
+</html>
