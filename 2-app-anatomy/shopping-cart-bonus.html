@@ -38,14 +38,21 @@
         $scope.items.splice(index, 1);
       }
 
-      function calculateDiscount() {
+      // function calculateDiscount() {
+      //   const total = $scope.items.reduce((prevTotal, currItem) => prevTotal + currItem.quantity * currItem.price, 0);
+      //   $scope.bill.totalCart = total;
+      //   $scope.bill.discount = total >= 100 ? 10 : 0;
+      //   $scope.bill.subtotal = total - $scope.bill.discount;
+      // }
+
+      //$scope.$watch('items', calculateDiscount, true);
+
+      $scope.$watch(function() {
         const total = $scope.items.reduce((prevTotal, currItem) => prevTotal + currItem.quantity * currItem.price, 0);
         $scope.bill.totalCart = total;
         $scope.bill.discount = total >= 100 ? 10 : 0;
         $scope.bill.subtotal = total - $scope.bill.discount;
-      }
-
-      $scope.$watch('items', calculateDiscount, true);
+      });
     });
   </script>
 </body>
