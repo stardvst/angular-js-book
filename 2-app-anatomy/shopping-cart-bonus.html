@@ -18,15 +18,15 @@
     <input ng-model="item.quantity">
   </div>
 
-  <div>Total: {{totalCart() | currency}}</div>
-  <div>Discount: {{discount | currency}}</div>
-  <div>Subtotal: {{subtotal() | currency}}</div>
+  <div>Total: {{bill.totalCart | currency}}</div>
+  <div>Discount: {{bill.discount | currency}}</div>
+  <div>Subtotal: {{bill.subtotal | currency}}</div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   <script>
     const myAppModule = angular.module('shoppingCart', []);
     myAppModule.controller('CartController', function CartController($scope) {
-      $scope.discount = 0;
+      $scope.bill = {};
 
       $scope.items = [
         { title: 'Paint pots', quantity: 8, price: 3.95 },
@@ -38,19 +38,14 @@
         $scope.items.splice(index, 1);
       }
 
-      $scope.totalCart = function() {
-        return $scope.items.reduce((prevTotal, currItem) => prevTotal + currItem.quantity * currItem.price, 0);
-      }
-
-      $scope.subtotal = function() {
-        return $scope.totalCart() - $scope.discount;
-      }
-
       function calculateDiscount(newValue, oldValue, scope) {
-        $scope.discount = newValue >= 100 ? 10 : 0;
+        const total = $scope.items.reduce((prevTotal, currItem) => prevTotal + currItem.quantity * currItem.price, 0);
+        $scope.bill.totalCart = total;
+        $scope.bill.discount = newValue >= 100 ? 10 : 0;
+        $scope.bill.subtotal = total - $scope.bill.discount;
       }
 
-      $scope.$watch($scope.totalCart, calculateDiscount);
+      $scope.$watch('items', calculateDiscount, true);
     });
   </script>
 </body>
