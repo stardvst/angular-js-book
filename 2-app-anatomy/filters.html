@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="filterApp">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filter-App</title>
+</head>
+
+<body ng-controller="headingController">
+  <p style="color: black;">{{heading | titleCase}}</p>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    const myAppModule = angular.module('filterApp', []);
+
+    myAppModule.controller('headingController', function headingController($scope) {
+      $scope.heading = "Page Title";
+    });
+
+    myAppModule.filter('titleCase', function() {
+      return function(input) {
+        const words = input.split('');
+        const upper = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+        return upper.join(' ');
+      }
+    });
+  </script>
+</body>
+
+</html>
