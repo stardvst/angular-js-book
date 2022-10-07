@@ -1,0 +1,16 @@
+<table>
+  <tr>
+    <td><strong>ID</strong></td>
+    <td><strong>Sender</strong></td>
+    <td><strong>Subject</strong></td>
+    <td><strong>Date</strong></td>
+  </tr>
+  <tr ng-repeat="message in messages">
+    <td>{{message.id}}</td>
+    <td>{{message.sender}}</td>
+    <td>
+      <a href="/detail/{{message.id}}">{{message.subject}} (/detail/{{message.id}})</a>
+    </td>
+    <td>{{message.date}}</td>
+  </tr>
+</table>
