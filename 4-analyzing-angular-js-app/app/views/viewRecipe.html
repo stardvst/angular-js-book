@@ -1,0 +1,18 @@
+<h2>{{recipe.title</h2>
+<div>{{recipe.description</div>
+
+<h3>Ingredients</h3>
+<ul>
+  <li ng-repeat="ingredient in ingredients">
+    <span>{{ingredient.amount}}</span>
+    <span>{{ingredient.amountUnits}}</span>
+    <span>{{ingredient.ingredientName}}</span>
+  </li>
+</ul>
+
+<h3>Instructions</h3>
+<div>{{recipe.instructions}}</div>
+
+<form ng-submit="edit()">
+  <button>Edit</button>
+</form>
