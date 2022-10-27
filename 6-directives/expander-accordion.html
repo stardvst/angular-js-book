@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="expanderModule">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+    .expander {
+      border: 1px solid black;
+      width: 250px;
+    }
+
+    .expander>.title {
+      background-color: black;
+      color: white;
+      padding: .1em .3em;
+      cursor: pointer;
+    }
+
+    .expander>.title {
+      padding: .1em .3em;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div ng-controller="SomeController">
+    <accordion>
+      <expander class="expander" ng-repeat="expander in expanders" expander-title="expander.title">
+        {{expander.text}}
+      </expander>
+    </accordion>
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script>
+    const myAppModule = angular.module('expanderModule', []);
+
+    myAppModule.controller('SomeController', function($scope) {
+      $scope.expanders = [
+        {
+          title: 'Click me to expand',
+          text: 'Hi there folks, I am the content that was hidden but is now shown.'
+        },
+        {
+          title: 'Click this',
+          text: 'I am even better text than you have seen previously'
+        },
+        {
+          title: 'No, click me!',
+          text: 'I am text that should be seen before seeing other texts'
+        }
+      ];
+    });
+
+    myAppModule.directive('expander', function() {
+      return {
+        restrict: 'EA',
+        replace: true,
+        transclude: true,
+        require: '^?accordion',
+        scope: { title: '=expanderTitle' },
+        template: '<div>' +
+          '<div class="title" ng-click="toggle()">{{title}}</div>' +
+          '<div class="body" ng-show="showMe" ng-transclude></div>' +
+          '</div>',
+        link: function(scope, element, attrs, accordionController) {
+          scope.showMe = false;
+          accordionController.addExpander(scope);
+          scope.toggle = function toggle() {
+            scope.showMe = !scope.showMe;
+            accordionController.gotOpened(scope);
+          }
+        }
+      }
+    });
+
+    myAppModule.directive('accordion', function() {
+      return {
+        restrict: 'EA',
+        replace: true,
+        transclude: true,
+        template: '<div ng-transclude></div>',
+        controller: function() {
+          var expanders = [];
+          this.gotOpened = function(selectedExpander) {
+            angular.forEach(expanders, function(expander) {
+              if(selectedExpander != expander) {
+                expander.showMe = false;
+              }
+            });
+          }
+          this.addExpander = function(expander) {
+            expanders.push(expander);
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
